@@ -1,3 +1,4 @@
+import { Banner } from '@/components/banner';
 import { SearchInput } from '@/components/SearchInput';
 import styles from '../../styles/Home.module.css'
 
@@ -30,6 +31,12 @@ const Home = () => {
           />
         </div>
       </header>
+
+      <Banner />
+
+      
+
+
     </div>
   )
 }
