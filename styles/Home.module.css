@@ -30,7 +30,7 @@
 
 .menuButtonLine {
   height: 2px;
-  background-color: #FB9400;
+  background-color: #000;
 
 }
 
@@ -46,4 +46,11 @@
   font-weight: 400;
   font-size: 16px;
   color: rgba(151, 151, 151, 0.8);
+}
+
+.grid{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+    margin: 0px 24px 0px 24px;
 }
