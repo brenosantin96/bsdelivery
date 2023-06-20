@@ -1,18 +1,31 @@
+import { Product } from "@/types/Product";
 import { Tenant } from "@/types/Tenant";
+
+const TEMPORARYoneProduct: Product = {
+    id: 1,
+    image: '/tmp/burgerpng.png',
+    categoryName: 'Tradicional',
+    name: 'Texas Burger',
+    price: 25.50,
+    description: '2 blends de carne de 150g, Queijo Cheddar, Bacon caramelizado, Salada, Molho da casa, Pão brioche artesanal'
+}
+
 
 
 //funcao que retorna um objeto.
-export const useApi =  () => ({
+//hook que se instancia em index const api = useApi();
+//se pode pegar todas funcoes do hook, ex: api.getTenant()  
+export const useApi = (tenantSlug: string) => ({
 
-    getTenant:  (tenantSlug: string): boolean | Tenant => {
+    getTenant: async () => {
 
         switch (tenantSlug) {
             case 'bsburger':
                 return {
                     slug: 'bsburger',
                     name: 'BSBurger',
-                    mainColor: '#FF0000',
-                    secondColor: '#00FF00'
+                    mainColor: '#FF9400',
+                    secondColor: '#FFF8F2'
                 }
 
                 break;
@@ -33,6 +46,20 @@ export const useApi =  () => ({
 
 
 
+    },
+
+    getAllProducts: async () => {
+        let products = [];
+
+        for (let q = 0; q < 10; q++) {
+            products.push(TEMPORARYoneProduct);
+        }
+
+        return products;
+    },
+
+    getOneProduct: async (id: string) => {
+        return TEMPORARYoneProduct;
     }
 
 })

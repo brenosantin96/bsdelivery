@@ -1,4 +1,5 @@
 import { useAppContext } from '@/contexts/AppContext';
+import { useFormatter } from '@/libs/useFormatter';
 import { Product } from '@/types/Product'
 import Link from 'next/link';
 import styles from './styles.module.css'
@@ -11,6 +12,8 @@ export const ProductItem = ({ data }: PropsProductItem) => {
 
     const {tenant} = useAppContext();
 
+    const formatter = useFormatter();
+
     return (
         <Link legacyBehavior href={`/${tenant?.slug}/product/${data.id}`}>
             <a className={styles.container}>
@@ -21,7 +24,7 @@ export const ProductItem = ({ data }: PropsProductItem) => {
                     </div>
                     <div className={styles.catName}>{data.categoryName}</div>
                     <div className={styles.name}>{data.name}</div>
-                    <div className={styles.price} style={{ color: tenant?.mainColor }}>{data.price}</div>
+                    <div className={styles.price} style={{ color: tenant?.mainColor }}>{formatter.formatPrice(data.price)}</div>
                 </div>
             </a>
         </Link>
