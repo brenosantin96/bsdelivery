@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import styles from './styles.module.css'
 import BackIcon from './backIcon.svg';
-import { useAppContext } from '@/contexts/AppContext';
+import { useAppContext } from '../../contexts/app';
 import Link from 'next/link';
 
 type Props = {

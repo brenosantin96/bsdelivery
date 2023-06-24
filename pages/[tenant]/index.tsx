@@ -1,21 +1,30 @@
 import { Banner } from '@/components/banner';
 import { ProductItem } from '@/components/productItem';
 import { SearchInput } from '@/components/SearchInput';
-import { useAppContext } from '@/contexts/AppContext';
+import { useAppContext } from '../../contexts/app' //importanto o hook
+import { useAuthContext } from '../../contexts/auth' //importanto o hook
 import { useApi } from '@/libs/useApi';
 import { Product } from '@/types/Product';
 import { Tenant } from '@/types/Tenant';
 import { GetServerSideProps } from 'next';
 import { useEffect, useState } from 'react';
 import styles from '../../styles/Home.module.css'
+import { Sidebar } from '@/components/Sidebar';
 
 
 
 const Home = (data: Props) => {
 
   const { tenant, setTenant } = useAppContext();
+  const { user, setUser, token, setToken } = useAuthContext();
+
 
   const [products, setProducts] = useState<Product[]>(data.products);
+
+
+  //sidebar
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
 
   useEffect(
     () => {
@@ -36,11 +45,15 @@ const Home = (data: Props) => {
             <div className={styles.headerSubTitle}>O que deseja para hoje?</div>
           </div>
           <div className={styles.headerTopRight}>
-            <div className={styles.menuButton}>
+            <div className={styles.menuButton} onClick={() => setSidebarOpen(true)}>
               <div className={styles.menuButtonLine} style={{ backgroundColor: tenant?.mainColor }}></div>
               <div className={styles.menuButtonLine} style={{ backgroundColor: tenant?.mainColor }}></div>
               <div className={styles.menuButtonLine} style={{ backgroundColor: tenant?.mainColor }}></div>
             </div>
+            <Sidebar tenant={data.tenant} 
+              open={sidebarOpen}
+              onClose={()=> setSidebarOpen(false)}
+            />
           </div>
         </div>
         <div className={styles.headerBottom}>

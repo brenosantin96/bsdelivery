@@ -2,7 +2,6 @@ import { useState } from 'react'
 import styles from './styles.module.css'
 import EyeOn from './EyeOn.svg';
 import EyeOff from './EyeOff.svg';
-import { useAppContext } from '@/contexts/AppContext';
 import Link from 'next/link';
 
 type Props = {

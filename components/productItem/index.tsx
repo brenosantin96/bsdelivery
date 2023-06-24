@@ -1,4 +1,4 @@
-import { useAppContext } from '@/contexts/AppContext';
+import { useAppContext } from '../../contexts/app' //importanto o hook
 import { useFormatter } from '@/libs/useFormatter';
 import { Product } from '@/types/Product'
 import Link from 'next/link';

@@ -1,0 +1,19 @@
+.container {
+    font-weight: 400;
+    font-size: 16px;
+    padding: 24px 0;
+    color: #6A7D8B;
+}
+
+.container span {
+    margin-left: 24px;
+}
+
+.svgIcon {
+    width: 12px;
+    height: 13px;
+}
+
+.disabled {
+    text-decoration: line-through;
+}
