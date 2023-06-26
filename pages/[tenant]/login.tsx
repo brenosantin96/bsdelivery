@@ -10,12 +10,14 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import styles from '../../styles/login.module.css'
+import { useAuthContext } from '@/contexts/auth';
 
 const Login = (data: Props) => {
 
-    const router = useRouter();
+
 
     const { tenant, setTenant } = useAppContext();
+    const { setToken, setUser, user, token } = useAuthContext();
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -26,8 +28,12 @@ const Login = (data: Props) => {
         }, []
     )
 
-    const handleSubmit = () => {
+    const router = useRouter();
 
+    const handleSubmit = () => {
+        setToken('1234');
+        setUser({ email: 'breno@gmail.com', name: 'Breno' });
+        router.push(`/${data.tenant.slug}`);
     }
 
     const handleSignUp = () => {
@@ -37,7 +43,7 @@ const Login = (data: Props) => {
     return (
         <div className={styles.container}>
             <Head>
-                <title>Login | {data.tenant.name}</title>
+                <title>{`Login | ${data.tenant.name}`}</title>
             </Head>
             <Header color={data.tenant.mainColor} backHref={`/${data.tenant.slug}`} title="LOGIN" />
 
@@ -82,7 +88,7 @@ const Login = (data: Props) => {
             <div className={styles.forgetArea}
                 style={{ borderBottomColor: data.tenant.mainColor }}
             >
-                Esqueceu sua senha? <Link legacyBehavior href={`/${data.tenant.slug}/forget`}><a style={{color: data.tenant.mainColor}}>Clique aqui</a></Link>
+                Esqueceu sua senha? <Link legacyBehavior href={`/${data.tenant.slug}/forget`}><a style={{ color: data.tenant.mainColor }}>Clique aqui</a></Link>
             </div>
 
             <div className={styles.line}></div>
