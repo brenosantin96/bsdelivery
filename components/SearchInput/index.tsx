@@ -17,9 +17,9 @@ export const SearchInput = ({ onSearch }: PropsSearchInput) => {
     const [searchValue, setSearchValue] = useState("");
 
     const handleKeyUp = (event: React.KeyboardEvent<HTMLInputElement>) => {
-        if (event.key === 'Enter') {
+        //if (event.key === 'Enter') {
             onSearch(searchValue);
-        }
+        //}
     }
 
     return (

@@ -17,7 +17,7 @@ const Login = (data: Props) => {
 
 
     const { tenant, setTenant } = useAppContext();
-    const { setToken, setUser, user, token } = useAuthContext();
+    const { setToken, setUser} = useAuthContext();
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");

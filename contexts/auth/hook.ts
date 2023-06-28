@@ -1,5 +1,6 @@
 //hook para usar o contexto
 import { User } from "@/types/User";
+import { setCookie } from "cookies-next";
 import { useContext } from "react"
 import { AppContext } from "."
 import { Actions } from "./types";
@@ -10,6 +11,8 @@ export const useAuthContext = () => {
     return {
         ...state,
         setToken: (token: string) => {
+            setCookie('token', token);
+            console.log("setando token no hook, ", token);
             dispatch({
                 type: Actions.SET_TOKEN,
                 payload: { token } //payload é um objeto, reotnrando um objeto com o novo token
