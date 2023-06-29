@@ -151,10 +151,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   //Get logged user
   //let token = context.req.cookies.token;
-  const token = getCookie('token', context);
+  let token = getCookie('token', context);
+  if(!token) token = null; //se nao ter essa opcao, da erro de retornar um objeto undefined.
 
-
-  console.log("TOKEN: ", token);
 
   const user = await api.authorizeToken(token as string);
 

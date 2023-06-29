@@ -10,6 +10,9 @@ import { GetServerSideProps } from 'next';
 import Head from 'next/head';
 import { useEffect, useState } from 'react';
 import styles from '../../../styles/Product-id.module.css'
+import { CartCookie } from '../../../types/CartCookie';
+import { getCookie, hasCookie, setCookie } from 'cookies-next';
+import { useRouter } from 'next/router';
 
 
 
@@ -20,7 +23,8 @@ const Product = (data: Props) => {
   const [qtCount, setQtCount] = useState(1);
 
   const formatter = useFormatter();
-
+  const router = useRouter();
+  
   useEffect(
     () => {
       setTenant(data.tenant) //essa info veio do servidor
@@ -28,7 +32,37 @@ const Product = (data: Props) => {
   )
 
   const handleAddToCart = () => {
-    console.log("Adicionado a sacola");
+    let cart: CartCookie[] = []; //criado carrinho vazio
+
+    //verificar se ja existe o carrinho, se existir preencho com os produtos que tenho guardado no cookie //create or get existing CART
+
+    //create or get existing Cart
+    if (hasCookie('cart')) {
+      const cartCookie = getCookie('cart');
+      const cartJson: CartCookie[] = JSON.parse(cartCookie as string);
+      for (let i in cartJson) {
+        if (cartJson[i].qt && cartJson[i].id) {
+          cart.push(cartJson[i])
+        }
+      }
+    }
+
+    //search product in cart
+    const cartIndex = cart.findIndex(item => item.id === data.product.id);
+    if(cartIndex > -1){
+      cart[cartIndex].qt += qtCount;
+    } else{
+      cart.push({id: data.product.id, qt: qtCount})
+    }
+
+    console.log(cart);
+
+     //setting cookie
+    setCookie('cart', JSON.stringify(cart));
+
+    //going to cart
+    router.push(`/${data.tenant.slug}/cart` ) 
+    
 
   }
 
@@ -101,7 +135,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   }
 
   //Get products
-  const product = await api.getOneProduct(id as string);
+  const product = await api.getOneProduct(parseInt(id as string));
 
   return {
     props: {
