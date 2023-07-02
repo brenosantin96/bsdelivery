@@ -12,7 +12,6 @@ export const useAuthContext = () => {
         ...state,
         setToken: (token: string) => {
             setCookie('token', token);
-            console.log("setando token no hook, ", token);
             dispatch({
                 type: Actions.SET_TOKEN,
                 payload: { token } //payload é um objeto, reotnrando um objeto com o novo token

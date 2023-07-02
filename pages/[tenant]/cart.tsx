@@ -13,6 +13,7 @@ import { Header } from '@/components/Header';
 import { InputField } from '@/components/InputField';
 import { Button } from '@/components/Button';
 import { useFormatter } from '@/libs/useFormatter';
+import { CartItem } from '@/types/CartItem';
 
 
 
@@ -20,18 +21,6 @@ const Cart = (data: Props) => {
 
   const { tenant, setTenant } = useAppContext();
   const { setUser, setToken } = useAuthContext();
-
-  const [shippingInput, setShippingInput] = useState("");
-  const [shippingPrice, setShippingPrice] = useState(0);
-  const [subtotal, setSubTotal] = useState(0);
-
-  const handleShippingCalc = () => {
-    console.log("CU")
-  }
-
-  const handleFinish = () => {
-    console.log("Terminando")
-  }
 
 
   useEffect(
@@ -42,6 +31,27 @@ const Cart = (data: Props) => {
     }, []);
 
   const formatter = useFormatter();
+
+  //Product Control
+  const [cart, setCart] = useState<CartItem[]>(data.cart);
+
+
+  //Shipping
+  const [shippingInput, setShippingInput] = useState("");
+  const [shippingPrice, setShippingPrice] = useState(0);
+
+  const handleShippingCalc = () => {
+    console.log("CU")
+  }
+
+
+  //Resume
+  const [subTotal, setSubTotal] = useState(0);
+
+
+  const handleFinish = () => {
+    console.log("Terminando")
+  }
 
 
   return (
@@ -73,7 +83,7 @@ const Cart = (data: Props) => {
       <div className={styles.resumeArea}>
         <div className={styles.resumeItem}>
           <div className={styles.resumeLeft}>Subtotal</div>
-          <div className={styles.resumeRight}>{formatter.formatPrice(subtotal)}</div>
+          <div className={styles.resumeRight}>{formatter.formatPrice(subTotal)}</div>
         </div>
 
         <div className={styles.resumeItem}>
@@ -85,7 +95,7 @@ const Cart = (data: Props) => {
 
         <div className={styles.resumeItem}>
           <div className={styles.resumeLeft}>Total</div>
-          <div className={styles.resumeRightBig} style={{ color: data.tenant.mainColor }}>{formatter.formatPrice(shippingPrice + subtotal)}</div>
+          <div className={styles.resumeRightBig} style={{ color: data.tenant.mainColor }}>{formatter.formatPrice(shippingPrice + subTotal)}</div>
         </div>
 
         <div className={styles.resumeButton}>
@@ -103,9 +113,9 @@ export default Cart;
 
 type Props = {
   tenant: Tenant;
-  products: Product[];
   token: string;
   user: User | null;
+  cart: CartItem[];
 }
 
 //Vamos pegar informacao do servidor de quem é o TENANT, para só depois carregar a pagina
@@ -131,16 +141,18 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   const user = await api.authorizeToken(token as string);
 
-  //Get products
-  const products = await api.getAllProducts();
+  //get Cart Products
+  const cartCookie = getCookie('cart', context);
+  console.log("CART: ", cartCookie);
 
+  const cart = await api.getCartProducts(cartCookie as string);
 
   return {
     props: {
       tenant,
-      products,
       user,
-      token
+      token,
+      cart
     }
   }
 }
