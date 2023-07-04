@@ -5,7 +5,7 @@ import { Product } from '@/types/Product';
 import { Tenant } from '@/types/Tenant';
 import { GetServerSideProps } from 'next';
 import { useEffect, useState } from 'react';
-import styles from '../../styles/cart.module.css'
+import styles from '../../styles/checkout.module.css'
 import { getCookie, setCookie } from 'cookies-next';
 import { User } from '@/types/User';
 import Head from 'next/head';
@@ -17,10 +17,12 @@ import { CartItem } from '@/types/CartItem';
 import { useRouter } from 'next/router';
 import { CartProductItem } from '@/components/CartProductItem';
 import { CartCookie } from '@/types/CartCookie';
+import { ButtonWithIcon } from '@/components/ButtonWithIcon';
 
 
 
-const Cart = (data: Props) => {
+
+const Checkout = (data: Props) => {
 
   const { tenant, setTenant } = useAppContext();
   const { setUser, setToken } = useAuthContext();
@@ -100,10 +102,74 @@ const Cart = (data: Props) => {
   return (
     <div className={styles.container}>
       <Head>
-        <title>{`SACOLA | ${data.tenant.name}`}</title>
+        <title>{`Checkout | ${data.tenant.name}`}</title>
       </Head>
 
-      <Header backHref={`/${data.tenant.slug}`} color={data.tenant.mainColor} title="Sacola" />
+      <Header backHref={`/${data.tenant.slug}`} color={data.tenant.mainColor} title="Checkout" />
+
+
+      <div className={styles.infoGroup}>
+
+        <div className={styles.infoArea}>
+          <div className={styles.infoTitle}>Endereço</div>
+          <div className={styles.infoBody}>
+            <ButtonWithIcon
+              color={data.tenant.mainColor}
+              leftIcon={"location"}
+              rightIcon={"rightarrow"}
+              value={"Rua blablabla, 132"}
+              onClick={() => { }}
+              fill={false}
+
+            />
+          </div>
+        </div>
+
+        <div className={styles.infoArea}>
+          <div className={styles.infoTitle}>Tipo de pagamento</div>
+          <div className={styles.infoBody}>
+            ...
+          </div>
+        </div>
+
+        <div className={styles.infoArea}>
+          <div className={styles.infoTitle}>Troco</div>
+          <div className={styles.infoBody}>
+            ...
+          </div>
+        </div>
+
+        <div className={styles.infoArea}>
+          <div className={styles.infoTitle}>Cupom de desconto</div>
+          <div className={styles.infoBody}>
+            ...
+          </div>
+        </div>
+
+      </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
       <div className={styles.productsQuantity}>{cart.length}{cart.length === 1 ? ' item no carrinho' : ' itens no carrinho'} </div>
 
@@ -170,7 +236,7 @@ const Cart = (data: Props) => {
   )
 }
 
-export default Cart;
+export default Checkout;
 
 type Props = {
   tenant: Tenant;
