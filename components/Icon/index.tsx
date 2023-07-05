@@ -33,7 +33,7 @@ export const Icon = ({ icon, color, width, height }: Props) => {
                 return RightArrow;
             // Adicione outros casos aqui para outros ícones, se necessário
             default:
-                return null;
+                return "";
         }
     };
 

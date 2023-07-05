@@ -13,10 +13,15 @@ type Props = {
 
 export const ButtonWithIcon = ({ color, leftIcon, rightIcon, value, onClick, fill }: Props) => {
     return (
-        <div className={styles.container}>
+        <div className={styles.container}
+        style={{backgroundColor: fill ? color : "#f9f9fb"}}
+        onClick={onClick}
+        >
 
             {leftIcon &&
-                <div className={styles.leftSide}>
+                <div className={styles.leftSide}
+                    style={{backgroundColor: fill ? 'rgba(0, 0, 0, .05)' : '#FFF'}}
+                >
                     <Icon
                         color={fill ? "#FFF" : color}
                         icon={leftIcon}
@@ -26,7 +31,9 @@ export const ButtonWithIcon = ({ color, leftIcon, rightIcon, value, onClick, fil
                 </div>
             }
 
-            <div className={styles.centerSide}>{value}</div>
+            <div className={styles.centerSide}
+                style={{color: fill ? '#FFF' : '#1b1b1b'}}
+            >{value}</div>
 
 
             {rightIcon &&

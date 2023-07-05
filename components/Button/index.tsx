@@ -5,12 +5,13 @@ type Props = {
     label: string;
     onClick: () => void;
     fill?: boolean;
+    disabled?: boolean;
 }
 
-export const Button = ({ color, label, onClick, fill }: Props) => {
+export const Button = ({ color, label, onClick, fill, disabled }: Props) => {
     return (
-        <div className={styles.container} onClick={onClick}
-            style={{ color: fill ? "#FFF" : color, borderColor: color, backgroundColor: fill ? color : 'transparent' }}
+        <div className={styles.container} onClick={!disabled ? onClick : () => { }}
+            style={{ color: fill ? "#FFF" : color, borderColor: color, backgroundColor: fill ? color : 'transparent', opacity: disabled ? .4 : 1 }}
         >
             {label}
         </div>
