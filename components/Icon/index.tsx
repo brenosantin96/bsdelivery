@@ -5,6 +5,9 @@ import Cupom from './cupom.svg'
 import Location from './location.svg'
 import Money from './money.svg'
 import RightArrow from './rightarrow.svg'
+import Dots from './dots.svg'
+import Edit from './edit1.svg'
+import Delete from './delete1.svg'
 
 type Props = {
     icon: string;
@@ -31,6 +34,12 @@ export const Icon = ({ icon, color, width, height }: Props) => {
                 return Money;
             case 'rightArrow':
                 return RightArrow;
+            case 'dots':
+                return Dots;
+            case 'edit':
+                return Edit;
+            case 'delete':
+                return Delete;
             // Adicione outros casos aqui para outros ícones, se necessário
             default:
                 return "";
