@@ -50,16 +50,29 @@ const Checkout = (data: Props) => {
 
 
   const handleChangeAdress = () => {
-    //router.push(`/${data.tenant.slug}/myaddresses`)
-    setShippingAdress({ id: 1, cep: "38701-601", street: "Rua das Flores", number: "321", neighborhood: "Nova Floresta", city: "Patos de Minas", state: 'MG' })
+    router.push(`/${data.tenant.slug}/myaddresses`)
+
+    /*setShippingAdress({ id: 1, cep: "38701-601", street: "Rua das Flores", number: "321", neighborhood: "Nova Floresta", city: "Patos de Minas", state: 'MG' })
     setShippingPrice(9.5);
     console.log("indo para tela de endeereco...");
-
+    */
   }
 
   //Payments
   const [paymentType, setPaymentType] = useState<'money' | 'card'>('money')
   const [paymentChange, setPaymentChange] = useState(0);
+
+  //Cupom
+  const [cupom, setCupom] = useState('');
+  const [discount, setDiscount] = useState(0);
+  const [cupomInput, setCupomInput] = useState("");
+
+  const handleSetCupom = () => {
+    if (cupomInput) {
+      setCupom(cupomInput)
+      setDiscount(15.20);
+    }
+  }
 
   //Resume
   const [subTotal, setSubTotal] = useState(0);
@@ -149,12 +162,30 @@ const Checkout = (data: Props) => {
         <div className={styles.infoArea}>
           <div className={styles.infoTitle}>Cupom de desconto</div>
           <div className={styles.infoBody}>
-            <ButtonWithIcon
-              color={data.tenant.mainColor}
-              leftIcon={"cupom"}
-              rightIcon={"checked"}
-              value={"Teste123"}
-            />
+            {cupom &&
+              <ButtonWithIcon
+                color={data.tenant.mainColor}
+                leftIcon={"cupom"}
+                rightIcon={"checked"}
+                value={cupom.toUpperCase()}
+              />
+            }
+            {!cupom &&
+              <div className={styles.cupomInput}>
+                <InputField color={data.tenant.mainColor}
+                  placeholder="Tem um cupom ?"
+                  value={cupomInput}
+                  onChange={(newValue) => setCupomInput(newValue)}
+                />
+                <Button color={data.tenant.mainColor}
+                  label="OK"
+                  onClick={handleSetCupom}
+                />
+              </div>
+
+            }
+
+
           </div>
         </div>
 
@@ -185,6 +216,13 @@ const Checkout = (data: Props) => {
           <div className={styles.resumeRight}>{formatter.formatPrice(subTotal)}</div>
         </div>
 
+        {discount > 0 &&
+          <div className={styles.resumeItem}>
+            <div className={styles.resumeLeft}>Desconto</div>
+            <div className={styles.resumeRight}>-{formatter.formatPrice(discount)}</div>
+          </div>
+        }
+
         <div className={styles.resumeItem}>
           <div className={styles.resumeLeft}>Frete</div>
           <div className={styles.resumeRight}>{shippingPrice > 0 ? formatter.formatPrice(shippingPrice) : '--'}</div>
@@ -194,7 +232,7 @@ const Checkout = (data: Props) => {
 
         <div className={styles.resumeItem}>
           <div className={styles.resumeLeft}>Total</div>
-          <div className={styles.resumeRightBig} style={{ color: data.tenant.mainColor }}>{formatter.formatPrice(shippingPrice + subTotal)}</div>
+          <div className={styles.resumeRightBig} style={{ color: data.tenant.mainColor }}>{formatter.formatPrice(shippingPrice + subTotal - discount)}</div>
         </div>
 
         <div className={styles.resumeButton}>
