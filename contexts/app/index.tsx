@@ -6,7 +6,9 @@ export { useAppContext } from './hook'; //exportando direto dessde arquivo o hoo
 
 
 const initialState: DataType = { //criando um initialState, lembrando que as informacoes sao do tipo DATATYPE, que sao a tipagem do ESTADO.
-    tenant: null
+    tenant: null,
+    shippingAddress: null,
+    shippingPrice: 0
 }
 
 export const AppContext = createContext<ContextType>({

@@ -99,6 +99,19 @@ export const useApi = (tenantSlug: string) => ({
         return cart;
     },
 
+    addUserAddress: async (address: Address) => {
+        console.log(address)
+        return { ...address, id: 9 };
+    },
+
+    editUserAddress: async (NewAddressData : Address) => {
+        return true;
+    },
+
+    deleteUserAddress : async (addressid : number) => {
+        return true;
+    },
+
     getUserAddresses: async (email: string) => {
         const addresses: Address[] = [];
 
@@ -115,6 +128,24 @@ export const useApi = (tenantSlug: string) => ({
         }
 
         return addresses;
+    },
+
+    getUserAddress: async (addressid: number) => {
+        let address: Address = {
+            id: addressid,
+            street: 'Rua das Flores',
+            number: `${addressid}00`,
+            cep: '38701-601',
+            city: 'Patos de Minas',
+            neighborhood: "Alvorada",
+            state: 'MG'
+        };
+
+        return address;
+    },
+
+    getShippingPrice: async (address: Address) => {
+        return 9.16;
     }
 
 })

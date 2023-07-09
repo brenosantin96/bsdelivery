@@ -25,7 +25,7 @@ import { Address } from '@/types/Address';
 
 const Checkout = (data: Props) => {
 
-  const { tenant, setTenant } = useAppContext();
+  const { tenant, setTenant, shippingAddress, shippingPrice } = useAppContext();
   const { setUser, setToken } = useAuthContext();
 
 
@@ -45,8 +45,7 @@ const Checkout = (data: Props) => {
 
 
   //Shipping
-  const [shippingPrice, setShippingPrice] = useState(0);
-  const [shippingAdress, setShippingAdress] = useState<Address>();
+
 
 
   const handleChangeAdress = () => {
@@ -111,7 +110,7 @@ const Checkout = (data: Props) => {
               color={data.tenant.mainColor}
               leftIcon={"location"}
               rightIcon={"rightArrow"}
-              value={shippingAdress ? `${shippingAdress.street} ${shippingAdress.number} - ${shippingAdress.city}` : 'Escolha um endereço'}
+              value={shippingAddress ? `${shippingAddress.street} ${shippingAddress.number} - ${shippingAddress.city}` : 'Escolha um endereço'}
               onClick={handleChangeAdress}
               fill={false}
 
@@ -236,7 +235,7 @@ const Checkout = (data: Props) => {
         </div>
 
         <div className={styles.resumeButton}>
-          <Button color={data.tenant.mainColor} label="Finalizar Pedido" onClick={handleFinish} fill disabled={!shippingAdress}></Button>
+          <Button color={data.tenant.mainColor} label="Finalizar Pedido" onClick={handleFinish} fill disabled={!shippingAddress}></Button>
         </div>
         {/* se tiver shipping adress, nao fica disabled. se nao tiver, fica disabled. */}
 

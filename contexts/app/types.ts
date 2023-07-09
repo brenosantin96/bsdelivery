@@ -1,8 +1,11 @@
+import { Address } from "@/types/Address";
 import { Tenant } from "@/types/Tenant";
 import React, { Dispatch } from "react";
 
 export type DataType = {
     tenant: Tenant | null;
+    shippingAddress: Address | null;
+    shippingPrice : number;
 
 }
 
@@ -22,6 +25,8 @@ export type ProviderType = {
 
 
 export enum Actions {
-    SET_TENANT
+    SET_TENANT,
+    SET_SHIPPING_ADDRESS,
+    SET_SHIPPING_PRICE
 }
 

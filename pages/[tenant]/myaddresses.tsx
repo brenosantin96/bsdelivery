@@ -21,8 +21,9 @@ import { AddressItem } from '@/components/AddressItem';
 
 const MyAdresses = (data: Props) => {
 
-    const { tenant, setTenant } = useAppContext();
+    const { tenant, setTenant, setShippingAddress, setShippingPrice } = useAppContext();
     const { setUser, setToken } = useAuthContext();
+    const api = useApi(data.tenant.slug);
 
 
     useEffect(
@@ -36,21 +37,30 @@ const MyAdresses = (data: Props) => {
     const router = useRouter();
 
 
-    const handleNewAdress = () => {
-        router.push(`/${data.tenant.slug}/newaddress`)
-
+    //tem que utilizar o context porque teem que passar props de uma pagina a outra, nao envolve compnente pai nem componente filho.
+    const handleAddressSelect = async (address: Address) => {
+        const price = await api.getShippingPrice(address);
+        if (price) {
+            // Salvar no contexto endereco e frete 
+            setShippingAddress(address);
+            setShippingPrice(price);
+            router.push(`/${data.tenant.slug}/checkout`)
+        }
     }
 
-    const handleAddressSelect = (address: Address) => {
+    const handleNewAdress = () => {
+        router.push(`/${data.tenant.slug}/address/new `)
 
     }
 
     const handleAddressEdit = (id: number) => {
+        router.push(`/${data.tenant.slug}/address/${id}`)
         console.log("Editando o endereco com ID: ", id)
     }
 
-    const handleAddressDelete = (id: number) => {
-        console.log("Excluindo o endereco com ID: ", id)
+    const handleAddressDelete = async (id: number) => {
+        await api.deleteUserAddress(id);
+        router.reload();
     }
 
     //MenuEvents
@@ -58,8 +68,8 @@ const MyAdresses = (data: Props) => {
 
     const handleMenuEvent = (event: MouseEvent) => {
         const tagName = (event.target as Element).tagName;
-    
-        if(!['path', 'svg'].includes(tagName)){
+
+        if (!['path', 'svg'].includes(tagName)) {
             setMenuOpened(0); //fechar o menu se clicar em algum lugar que nao seja path ou svg, (porque os dots é um svg)
         }
     }
@@ -138,7 +148,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
     const user = await api.authorizeToken(token as string);
     if (!user) {
-        return { redirect: { destination: `/login`, permanent: false } } //if no user logged redirect to login
+        return { redirect: { destination: `/${tenant.slug}/login`, permanent: false } } //if no user logged redirect to login
     }
 
     //getAdressesFromLoggedUser
