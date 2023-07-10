@@ -38,6 +38,7 @@ const Checkout = (data: Props) => {
 
   const formatter = useFormatter();
   const router = useRouter();
+  const api = useApi(data.tenant.slug);
 
   //Product Control
   const [cart, setCart] = useState<CartItem[]>(data.cart);
@@ -85,8 +86,17 @@ const Checkout = (data: Props) => {
   }, [cart])
 
 
-  const handleFinish = () => {
-    console.log("Fechando a compra!");
+  const handleFinish = async () => {
+    if (shippingAddress) {
+      const order = await api.setOrder(
+        shippingAddress,
+        paymentType,
+        paymentChange,
+        cupom,
+        data.cart
+      );
+
+    }
 
   }
 

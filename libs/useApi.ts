@@ -146,6 +146,11 @@ export const useApi = (tenantSlug: string) => ({
 
     getShippingPrice: async (address: Address) => {
         return 9.16;
+    },
+
+    setOrder: async (shippingAddress : Address, paymentType : 'money' | 'card', paymentChange : number, cupom: string, cart: CartItem[]) => {
+        console.log('cu');
+        return {cu: 'cu', cu2: 'cu2'}
     }
 
 })
