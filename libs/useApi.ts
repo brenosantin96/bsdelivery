@@ -3,6 +3,7 @@ import { Product } from "@/types/Product";
 import { Tenant } from "@/types/Tenant";
 import { User } from "@/types/User";
 import { Address } from "@/types/Address";
+import { Order } from "@/types/Order";
 
 const TEMPORARYoneProduct: Product = {
     id: 1,
@@ -11,6 +12,33 @@ const TEMPORARYoneProduct: Product = {
     name: 'Texas Burger',
     price: 25.50,
     description: '2 blends de carne de 150g, Queijo Cheddar, Bacon caramelizado, Salada, Molho da casa, Pão brioche artesanal'
+}
+
+const TEMPORARYorder: Order = {
+    id: 123,
+    status: 'preparing',
+    orderDate: '2023-07-17',
+    userid: '123',
+    shippingAddress: {
+        id: 2,
+        street: 'Rua das flores',
+        number: '200',
+        cep: '58433001',
+        city: 'São Paulo',
+        neighborhood: 'Jardins',
+        state: 'SP'
+    },
+    shippingPrice: 9.14,
+    paymentTipe: 'card',
+    cupom: 'ABC',
+    cupomDiscount: 14.3,
+    products: [
+        { product: { ...TEMPORARYoneProduct, id: 1 }, qt: 1 },
+        { product: { ...TEMPORARYoneProduct, id: 2 }, qt: 2 },
+        { product: { ...TEMPORARYoneProduct, id: 3 }, qt: 1 },
+    ],
+    subTotal: 204,
+    total: 198.84
 }
 
 
@@ -104,11 +132,11 @@ export const useApi = (tenantSlug: string) => ({
         return { ...address, id: 9 };
     },
 
-    editUserAddress: async (NewAddressData : Address) => {
+    editUserAddress: async (NewAddressData: Address) => {
         return true;
     },
 
-    deleteUserAddress : async (addressid : number) => {
+    deleteUserAddress: async (addressid: number) => {
         return true;
     },
 
@@ -148,9 +176,12 @@ export const useApi = (tenantSlug: string) => ({
         return 9.16;
     },
 
-    setOrder: async (shippingAddress : Address, paymentType : 'money' | 'card', paymentChange : number, cupom: string, cart: CartItem[]) => {
-        console.log('cu');
-        return {cu: 'cu', cu2: 'cu2'}
+    setOrder: async (shippingAddress: Address, paymentType: 'money' | 'card', paymentChange: number, cupom: string, cart: CartItem[]) => {
+        return TEMPORARYorder;
+    },
+
+    getOrder: async (id: number) => {
+        return TEMPORARYorder;
     }
 
 })

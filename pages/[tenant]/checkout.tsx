@@ -88,6 +88,7 @@ const Checkout = (data: Props) => {
 
   const handleFinish = async () => {
     if (shippingAddress) {
+
       const order = await api.setOrder(
         shippingAddress,
         paymentType,
@@ -95,6 +96,11 @@ const Checkout = (data: Props) => {
         cupom,
         data.cart
       );
+      if (order) {
+        router.push(`/${data.tenant.slug}/order/${order.id}`);
+      } else {
+        alert('ocorreu um erro, tente mais tarde!');
+      }
 
     }
 
